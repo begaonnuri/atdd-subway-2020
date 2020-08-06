@@ -34,6 +34,8 @@ public class SubwayPath {
     }
 
     public int calculateFare() {
+        // Charger charger = new Charger(calculateDistance());
+        // return charger.chargeByDistance();
         return 1250;
     }
 }
