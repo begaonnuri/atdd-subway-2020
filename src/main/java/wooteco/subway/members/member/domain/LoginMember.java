@@ -20,6 +20,14 @@ public class LoginMember implements UserDetails {
         return this.password.equals(password);
     }
 
+    public boolean isChild() {
+        return age >= 6 && age < 13;
+    }
+
+    public boolean isYouth() {
+        return age >= 13 && age < 19;
+    }
+
     public Long getId() {
         return id;
     }

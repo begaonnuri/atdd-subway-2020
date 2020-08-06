@@ -7,11 +7,9 @@ import com.google.common.collect.Lists;
 
 public class SubwayPath {
     private List<LineStationEdge> lineStationEdges;
-    private int maxExtraFare;
 
-    public SubwayPath(List<LineStationEdge> lineStationEdges, int maxExtraFare) {
+    public SubwayPath(List<LineStationEdge> lineStationEdges) {
         this.lineStationEdges = lineStationEdges;
-        this.maxExtraFare = maxExtraFare;
     }
 
     public List<LineStationEdge> getLineStationEdges() {
@@ -34,10 +32,5 @@ public class SubwayPath {
 
     public int calculateDistance() {
         return lineStationEdges.stream().mapToInt(it -> it.getLineStation().getDistance()).sum();
-    }
-
-    public int calculateFare() {
-        Charger charger = new Charger(calculateDistance(), maxExtraFare);
-        return charger.charge();
     }
 }

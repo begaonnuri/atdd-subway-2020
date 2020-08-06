@@ -1,20 +1,22 @@
 package wooteco.subway.maps.map.application;
 
-import com.google.common.collect.Lists;
-import wooteco.subway.maps.line.domain.Line;
-import wooteco.subway.maps.line.domain.LineStation;
-import wooteco.subway.maps.map.domain.PathType;
-import wooteco.subway.maps.map.domain.SubwayPath;
-import wooteco.subway.maps.station.domain.Station;
-import wooteco.subway.common.TestObjectUtils;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.google.common.collect.Lists;
+import wooteco.subway.common.TestObjectUtils;
+import wooteco.subway.maps.line.domain.Line;
+import wooteco.subway.maps.line.domain.LineStation;
+import wooteco.subway.maps.line.domain.Lines;
+import wooteco.subway.maps.map.domain.PathType;
+import wooteco.subway.maps.map.domain.SubwayPath;
+import wooteco.subway.maps.station.domain.Station;
 
 public class PathServiceTest {
     private List<Line> lines;
@@ -49,7 +51,7 @@ public class PathServiceTest {
     @Test
     void findPathByDistance() {
         // when
-        SubwayPath subwayPath = pathService.findPath(lines, 1L, 3L, PathType.DISTANCE);
+        SubwayPath subwayPath = pathService.findPath(new Lines(lines), 1L, 3L, PathType.DISTANCE);
 
         // then
         assertThat(subwayPath.extractStationId().size()).isEqualTo(3);
@@ -62,7 +64,7 @@ public class PathServiceTest {
     @Test
     void findPathByDuration() {
         // when
-        SubwayPath subwayPath = pathService.findPath(lines, 1L, 3L, PathType.DURATION);
+        SubwayPath subwayPath = pathService.findPath(new Lines(lines), 1L, 3L, PathType.DURATION);
 
         // then
         assertThat(subwayPath.extractStationId().size()).isEqualTo(3);
