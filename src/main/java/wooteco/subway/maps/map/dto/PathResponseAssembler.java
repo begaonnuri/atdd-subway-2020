@@ -2,6 +2,7 @@ package wooteco.subway.maps.map.dto;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import wooteco.subway.maps.line.domain.Lines;
@@ -20,9 +21,10 @@ public class PathResponseAssembler {
 
         int distance = subwayPath.calculateDistance();
 
-        Charger charger = new Charger(subwayPath.calculateDistance(), lines.getMaxExtraFare(),
-                loginMember);
-        int fare = charger.charge();
+        int fare = new Charger(subwayPath.calculateDistance(), lines.getMaxExtraFare()).charge();
+        if (Objects.isNull(loginMember)) {
+            fare = new Charger(subwayPath.calculateDistance(), lines.getMaxExtraFare()).charge();
+        }
 
         return new PathResponse(stationResponses, subwayPath.calculateDuration(), distance, fare);
     }

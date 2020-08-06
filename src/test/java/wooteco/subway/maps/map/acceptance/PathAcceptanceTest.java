@@ -70,9 +70,27 @@ public class PathAcceptanceTest extends AcceptanceTest {
         tokenResponse = 로그인_되어_있음(EMAIL, PASSWORD);
     }
 
-    @DisplayName("로그인 멤버에게 요금을 부과한다.")
+    @DisplayName("로그인 안한 멤버에게 요금을 부과한다.")
     @Test
     void chargeFare() {
+        //when
+        ExtractableResponse<Response> 기본요금 = 거리_경로_조회_요청("DISTANCE", 1L, 3L);
+
+        //then
+        적절한_경로를_응답(기본요금, Lists.newArrayList(교대역, 남부터미널역, 양재역));
+        총_거리와_소요_시간과_요금을_함께_응답함(기본요금, 3, 4, 1250);
+
+        //when
+        ExtractableResponse<Response> 노선추가요금 = 거리_경로_조회_요청("DISTANCE", 2L, 3L);
+
+        //then
+        적절한_경로를_응답(노선추가요금, Lists.newArrayList(강남역, 양재역));
+        총_거리와_소요_시간과_요금을_함께_응답함(노선추가요금, 2, 1, 2250);
+    }
+
+    @DisplayName("로그인 멤버에게 요금을 부과한다.")
+    @Test
+    void chargeFare2() {
         //when
         ExtractableResponse<Response> 기본요금 = 거리_경로_조회_요청("DISTANCE", 1L, 3L, tokenResponse);
 
@@ -114,11 +132,11 @@ public class PathAcceptanceTest extends AcceptanceTest {
     @DisplayName("두 역의 최소 시간 경로를 조회한다.")
     @Test
     void findPathByDuration() {
-        //whenR
-        ExtractableResponse<Response> response = 거리_경로_조회_요청("DURATION", 1L, 3L, tokenResponse);
+        //when
+        ExtractableResponse<Response> response = 거리_경로_조회_요청("DURATION", 1L, 3L);
         //then
         적절한_경로를_응답(response, Lists.newArrayList(교대역, 강남역, 양재역));
-        총_거리와_소요_시간과_요금을_함께_응답함(response, 4, 3, 1250);
+        총_거리와_소요_시간과_요금을_함께_응답함(response, 4, 3, 2250);
     }
 
     private Long 지하철_노선_등록되어_있음(String name, String color) {

@@ -17,6 +17,11 @@ public class Charger {
     private int maxExtraFare;
     private LoginMember loginMember;
 
+    public Charger(int distance, int maxExtraFare) {
+        this.distance = distance;
+        this.maxExtraFare = maxExtraFare;
+    }
+
     public Charger(int distance, int maxExtraFare,
             LoginMember loginMember) {
         this.distance = distance;

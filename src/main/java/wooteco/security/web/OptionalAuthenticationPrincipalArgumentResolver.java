@@ -10,15 +10,11 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import wooteco.security.core.Authentication;
-import wooteco.security.core.AuthenticationPrincipal;
+import wooteco.security.core.OptionalAuthenticationPrincipal;
 import wooteco.security.core.context.SecurityContextHolder;
 
-public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArgumentResolver {
-    @Override
-    public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(AuthenticationPrincipal.class);
-    }
-
+public class OptionalAuthenticationPrincipalArgumentResolver
+        implements HandlerMethodArgumentResolver {
     public static Object toObject(Class clazz, String value) {
         if (Boolean.class == clazz)
             return Boolean.parseBoolean(value);
@@ -38,11 +34,16 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
     }
 
     @Override
+    public boolean supportsParameter(MethodParameter parameter) {
+        return parameter.hasParameterAnnotation(OptionalAuthenticationPrincipal.class);
+    }
+
+    @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+            NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
-            throw new AuthorizationException();
+            return null;
         }
         if (authentication.getPrincipal() instanceof Map) {
             return extractPrincipal(parameter, authentication);

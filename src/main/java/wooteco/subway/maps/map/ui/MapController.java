@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import wooteco.security.core.AuthenticationPrincipal;
+import wooteco.security.core.OptionalAuthenticationPrincipal;
 import wooteco.subway.maps.map.application.MapService;
 import wooteco.subway.maps.map.domain.PathType;
 import wooteco.subway.maps.map.dto.MapResponse;
@@ -23,7 +23,7 @@ public class MapController {
     @GetMapping("/paths")
     public ResponseEntity<PathResponse> findPath(@RequestParam Long source,
             @RequestParam Long target, @RequestParam PathType type,
-            @AuthenticationPrincipal LoginMember loginMember) {
+            @OptionalAuthenticationPrincipal LoginMember loginMember) {
         return ResponseEntity.ok(mapService.findPath(source, target, type, loginMember));
     }
 
