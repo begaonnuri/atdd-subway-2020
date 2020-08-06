@@ -61,18 +61,25 @@ public class PathAcceptanceTest extends AcceptanceTest {
     @Test
     void chargeFare() {
         //when
-        ExtractableResponse<Response> response1 = 거리_경로_조회_요청("DISTANCE", 1L, 3L);
+        ExtractableResponse<Response> 기본요금 = 거리_경로_조회_요청("DISTANCE", 1L, 3L);
 
         //then
-        적절한_경로를_응답(response1, Lists.newArrayList(교대역, 남부터미널역, 양재역));
-        총_거리와_소요_시간과_요금을_함께_응답함(response1, 3, 4, 1250);
+        적절한_경로를_응답(기본요금, Lists.newArrayList(교대역, 남부터미널역, 양재역));
+        총_거리와_소요_시간과_요금을_함께_응답함(기본요금, 3, 4, 1250);
 
         //when
-        ExtractableResponse<Response> response2 = 거리_경로_조회_요청("DISTANCE", 1L, 3L);
+        ExtractableResponse<Response> 노선추가요금 = 거리_경로_조회_요청("DISTANCE", 1L, 2L);
 
         //then
-        적절한_경로를_응답(response2, Lists.newArrayList(강남역, 양재역));
-        총_거리와_소요_시간과_요금을_함께_응답함(response2, 3, 4, 2250);
+        적절한_경로를_응답(노선추가요금, Lists.newArrayList(강남역, 양재역));
+        총_거리와_소요_시간과_요금을_함께_응답함(노선추가요금, 3, 4, 2250);
+        
+        //when
+        ExtractableResponse<Response> 연령할인요금 = 거리_경로_조회_요청("DISTANCE", 1L, 2L);
+
+        //then
+        적절한_경로를_응답(연령할인요금, Lists.newArrayList(강남역, 양재역));
+        총_거리와_소요_시간과_요금을_함께_응답함(연령할인요금, 3, 4, 2250);
     }
 
     @DisplayName("두 역의 최단 거리 경로를 조회한다.")
