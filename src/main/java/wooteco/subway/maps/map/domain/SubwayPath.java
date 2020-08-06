@@ -1,15 +1,17 @@
 package wooteco.subway.maps.map.domain;
 
-import com.google.common.collect.Lists;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
+
 public class SubwayPath {
     private List<LineStationEdge> lineStationEdges;
+    private int maxExtraFare;
 
-    public SubwayPath(List<LineStationEdge> lineStationEdges) {
+    public SubwayPath(List<LineStationEdge> lineStationEdges, int maxExtraFare) {
         this.lineStationEdges = lineStationEdges;
+        this.maxExtraFare = maxExtraFare;
     }
 
     public List<LineStationEdge> getLineStationEdges() {
@@ -17,7 +19,8 @@ public class SubwayPath {
     }
 
     public List<Long> extractStationId() {
-        List<Long> stationIds = Lists.newArrayList(lineStationEdges.get(0).getLineStation().getPreStationId());
+        List<Long> stationIds = Lists.newArrayList(
+                lineStationEdges.get(0).getLineStation().getPreStationId());
         stationIds.addAll(lineStationEdges.stream()
                 .map(it -> it.getLineStation().getStationId())
                 .collect(Collectors.toList()));
@@ -34,8 +37,7 @@ public class SubwayPath {
     }
 
     public int calculateFare() {
-        // Charger charger = new Charger(calculateDistance());
-        // return charger.chargeByDistance();
-        return 1250;
+        Charger charger = new Charger(calculateDistance(), maxExtraFare);
+        return charger.charge();
     }
 }

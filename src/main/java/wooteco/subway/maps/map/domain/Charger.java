@@ -2,14 +2,20 @@ package wooteco.subway.maps.map.domain;
 
 public class Charger {
     static final int DEFAULT_FARE = 1250;
-    private static final int EXTRA_FARE = 100;
+     static final int EXTRA_FARE = 100;
     private static final int FIRST_THRESHOLD = 10;
     private static final int SECOND_THRESHOLD = 50;
 
     private int distance;
+    private int maxExtraFare;
 
-    public Charger(int distance) {
+    public Charger(int distance, int maxExtraFare) {
         this.distance = distance;
+        this.maxExtraFare = maxExtraFare;
+    }
+
+    public int charge() {
+        return chargeByDistance() + maxExtraFare;
     }
 
     public int chargeByDistance() {

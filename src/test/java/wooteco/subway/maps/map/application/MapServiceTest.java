@@ -71,7 +71,7 @@ public class MapServiceTest {
                 new LineStationEdge(lineStation6, line3.getId()),
                 new LineStationEdge(lineStation7, line3.getId())
         );
-        subwayPath = new SubwayPath(lineStations);
+        subwayPath = new SubwayPath(lineStations, 0);
 
         mapService = new MapService(lineService, stationService, pathService);
     }
