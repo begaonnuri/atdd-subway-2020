@@ -33,14 +33,13 @@ public class Charger {
     }
 
     private int chargeByAge(int totalFare) {
-        double fare = totalFare - DEDUCTED_AMOUNT;
         if (loginMember.isChild()) {
-            fare *= CHILD_DISCOUNT_RATE;
+            return (int)((totalFare - DEDUCTED_AMOUNT) * CHILD_DISCOUNT_RATE);
         }
         if (loginMember.isYouth()) {
-            fare *= YOUTH_DISCOUNT_RATE;
+            return (int)((totalFare - DEDUCTED_AMOUNT) * YOUTH_DISCOUNT_RATE);
         }
-        return (int)fare;
+        return totalFare;
     }
 
     private int chargeByDistance() {
